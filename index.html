@@ -34,9 +34,7 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
-        /* -----------------------------------
-           HALAMAN 1: COVER UTAMA 
-        ----------------------------------- */
+        /* Halaman Cover Utama */
         #cover-section {
             min-height: 100vh;
             display: flex;
@@ -71,11 +69,9 @@
             margin: 5px 0 25px 0;
         }
 
-        /* -----------------------------------
-           HALAMAN UTAMA (DETAIL, STORY, GALERI)
-        ----------------------------------- */
+        /* Halaman Utama */
         #main-content {
-            display: none; /* Tersembunyi saat pertama kali dibuka */
+            display: none;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
@@ -92,7 +88,6 @@
             margin-bottom: 20px;
         }
 
-        /* Tombol Emas Elegan */
         .btn-gold {
             display: inline-block;
             background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa7c11 100%);
@@ -112,7 +107,6 @@
             transform: scale(1.03);
         }
 
-        /* Card Acara */
         .event-card {
             background: #181818;
             border: 1px solid #2a2a2a;
@@ -135,7 +129,6 @@
             margin-bottom: 15px;
         }
 
-        /* Story & Gallery */
         .story-box {
             background: #181818;
             border-left: 2px solid #d4af37;
@@ -171,7 +164,6 @@
             border: 1px solid #333;
         }
 
-        /* Floating Music Button */
         .music-btn {
             position: fixed;
             bottom: 20px;
@@ -194,12 +186,12 @@
 </head>
 <body>
 
-    <!-- Audio Player -->
-    <audio id="bgMusic" loop>
-        <source src="backsound.mp3" type="audio/mpeg">
+    <!-- Link Audio Online (Pixabay) -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Floating Music Button -->
+    <!-- Tombol Kontrol Musik Melayang -->
     <button class="music-btn" id="musicToggle" onclick="toggleMusic()">🎵</button>
 
     <div class="main-wrapper">
@@ -222,7 +214,6 @@
             <section class="section-page">
                 <h2 class="section-heading">Detail Acara</h2>
 
-                <!-- Akad Nikah -->
                 <div class="event-card">
                     <h3 class="event-title">Akad Nikah</h3>
                     <p class="event-detail">
@@ -234,7 +225,6 @@
                     <a href="https://maps.google.com/?q=Gedung+Acara+1+Jakarta" target="_blank" class="btn-gold">📍 MAPS LOKASI AKAD</a>
                 </div>
 
-                <!-- Resepsi -->
                 <div class="event-card">
                     <h3 class="event-title">Resepsi</h3>
                     <p class="event-detail">
@@ -269,8 +259,7 @@
                     <img src="gallery4.jpg" alt="Foto 4">
                 </div>
 
-                <!-- Tombol RSVP WhatsApp -->
-                <a href="https://wa.me/6289501026014?text=Halo,%20saya%20konfirmasi%20akan%20hadir%20di%20pernikahan%20Angga%20%26%20Ferra." 
+                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20konfirmasi%20akan%20hadir%20di%20pernikahan%20Angga%20%26%20Ferra." 
                    class="btn-gold" target="_blank" style="margin-top: 35px; width: 100%;">
                     💬 KONFIRMASI KEHADIRAN (WA)
                 </a>
@@ -280,7 +269,7 @@
 
     </div>
 
-    <!-- JavaScript Perpindahan Halaman & Autoplay Musik -->
+    <!-- JavaScript Autoplay Musik -->
     <script>
         const music = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicToggle');
@@ -290,29 +279,27 @@
             const cover = document.getElementById('cover-section');
             const mainContent = document.getElementById('main-content');
 
-            // 1. Efek Fade Out Halaman Cover
+            // Autoplay musik saat tombol ditekan
+            music.play().then(() => {
+                isPlaying = true;
+                musicBtn.innerText = "🎵";
+            }).catch(error => {
+                console.log("Autoplay diblokir:", error);
+            });
+
+            // Transisi Halaman
             cover.style.opacity = '0';
 
             setTimeout(() => {
-                // Sembunyikan Halaman Cover Sepenuhnya
                 cover.style.display = 'none';
-
-                // Tampilkan Halaman Utama
                 mainContent.style.display = 'block';
                 
-                // Efek Fade In Halaman Utama
                 setTimeout(() => {
                     mainContent.style.opacity = '1';
                 }, 50);
 
-                // Reset Posisi Scroll ke Paling Atas
                 window.scrollTo(0, 0);
-
-                // Putar Musik Autoplay
-                music.play();
-                isPlaying = true;
-                musicBtn.innerText = "🎵";
-            }, 1500); // Waktu transisi 0.5 detik
+            }, 500);
         }
 
         function toggleMusic() {
