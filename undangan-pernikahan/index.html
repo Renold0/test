@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Angga & Ferra</title>
+    <!-- Font Elegan Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0b0b0b;
+            color: #e0e0e0;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        .main-wrapper {
+            max-width: 450px;
+            margin: 0 auto;
+            background: #121212;
+            min-height: 100vh;
+            border-left: 1px solid #2a2a2a;
+            border-right: 1px solid #2a2a2a;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        /* -----------------------------------
+           HALAMAN 1: COVER UTAMA 
+        ----------------------------------- */
+        #cover-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('hero.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 30px;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .couple-name {
+            font-family: 'Alex Brush', cursive;
+            font-size: 3.5rem;
+            color: #d4af37;
+            margin: 15px 0;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .guest-text {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-top: 20px;
+        }
+
+        .guest-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 5px 0 25px 0;
+        }
+
+        /* -----------------------------------
+           HALAMAN UTAMA (DETAIL, STORY, GALERI)
+        ----------------------------------- */
+        #main-content {
+            display: none; /* Tersembunyi saat pertama kali dibuka */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .section-page {
+            padding: 40px 20px;
+            border-bottom: 1px solid #222;
+        }
+
+        .section-heading {
+            font-family: 'Alex Brush', cursive;
+            font-size: 2.8rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+
+        /* Tombol Emas Elegan */
+        .btn-gold {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa7c11 100%);
+            color: #000;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .btn-gold:hover {
+            transform: scale(1.03);
+        }
+
+        /* Card Acara */
+        .event-card {
+            background: #181818;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 25px 20px;
+            margin-bottom: 25px;
+        }
+
+        .event-title {
+            font-family: 'Alex Brush', cursive;
+            font-size: 2.2rem;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        .event-detail {
+            font-size: 0.85rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Story & Gallery */
+        .story-box {
+            background: #181818;
+            border-left: 2px solid #d4af37;
+            padding: 15px;
+            text-align: left;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .story-box h4 {
+            color: #d4af37;
+            margin-bottom: 5px;
+        }
+
+        .story-box p {
+            font-size: 0.8rem;
+            color: #bbb;
+            line-height: 1.5;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        /* Floating Music Button */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #d4af37;
+            color: #000;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            font-size: 1.2rem;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Player -->
+    <audio id="bgMusic" loop>
+        <source src="backsound.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Music Button -->
+    <button class="music-btn" id="musicToggle" onclick="toggleMusic()">🎵</button>
+
+    <div class="main-wrapper">
+
+        <!-- TAMPILAN 1: COVER UTAMA -->
+        <section id="cover-section">
+            <p style="letter-spacing: 3px; font-size: 0.75rem; color: #d4af37;">WEDDING INVITATION</p>
+            <h1 class="couple-name">Angga & Ferra</h1>
+            
+            <p class="guest-text">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+            <p class="guest-name">Tamu Undangan</p>
+
+            <button class="btn-gold" onclick="openInvitation()">❯ BUKA UNDANGAN</button>
+        </section>
+
+        <!-- TAMPILAN 2 & 3: ISI UTAMA UNDANGAN -->
+        <div id="main-content">
+
+            <!-- DETAIL ACARA & MAP -->
+            <section class="section-page">
+                <h2 class="section-heading">Detail Acara</h2>
+
+                <!-- Akad Nikah -->
+                <div class="event-card">
+                    <h3 class="event-title">Akad Nikah</h3>
+                    <p class="event-detail">
+                        <strong>Gedung Acara 1</strong><br>
+                        Jl. Jatipadang Raya 15, Jakarta Selatan<br><br>
+                        Minggu, 30 Agustus 2026<br>
+                        10.00 - 12.00 WIB
+                    </p>
+                    <a href="https://maps.google.com/?q=Gedung+Acara+1+Jakarta" target="_blank" class="btn-gold">📍 MAPS LOKASI AKAD</a>
+                </div>
+
+                <!-- Resepsi -->
+                <div class="event-card">
+                    <h3 class="event-title">Resepsi</h3>
+                    <p class="event-detail">
+                        <strong>Gedung Acara 2</strong><br>
+                        Jl. Jatipadang Raya 15, Jakarta Selatan<br><br>
+                        Minggu, 30 Agustus 2026<br>
+                        13.00 - Selesai
+                    </p>
+                    <a href="https://maps.google.com/?q=Gedung+Acara+2+Jakarta" target="_blank" class="btn-gold">📍 MAPS LOKASI RESEPSI</a>
+                </div>
+            </section>
+
+            <!-- CERITA CINTA & GALERI FOTO -->
+            <section class="section-page">
+                <h2 class="section-heading">Our Love Story</h2>
+
+                <div class="story-box">
+                    <h4>Perkenalan (Kampus, 2018)</h4>
+                    <p>Awal mula kami bertemu di lingkungan kampus saat kegiatan organisasi bersama.</p>
+                </div>
+
+                <div class="story-box">
+                    <h4>Momen Lamaran (2025)</h4>
+                    <p>Setelah perjalanan panjang bersama, kami memutuskan untuk mengikat janji ke jenjang yang lebih serius.</p>
+                </div>
+
+                <h2 class="section-heading" style="margin-top: 40px;">Photo Gallery</h2>
+                <div class="gallery-grid">
+                    <img src="gallery1.jpg" alt="Foto 1">
+                    <img src="gallery2.jpg" alt="Foto 2">
+                    <img src="gallery3.jpg" alt="Foto 3">
+                    <img src="gallery4.jpg" alt="Foto 4">
+                </div>
+
+                <!-- Tombol RSVP WhatsApp -->
+                <a href="https://wa.me/6289501026014?text=Halo,%20saya%20konfirmasi%20akan%20hadir%20di%20pernikahan%20Angga%20%26%20Ferra." 
+                   class="btn-gold" target="_blank" style="margin-top: 35px; width: 100%;">
+                    💬 KONFIRMASI KEHADIRAN (WA)
+                </a>
+            </section>
+
+        </div>
+
+    </div>
+
+    <!-- JavaScript Perpindahan Halaman & Autoplay Musik -->
+    <script>
+        const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicToggle');
+        let isPlaying = false;
+
+        function openInvitation() {
+            const cover = document.getElementById('cover-section');
+            const mainContent = document.getElementById('main-content');
+
+            // 1. Efek Fade Out Halaman Cover
+            cover.style.opacity = '0';
+
+            setTimeout(() => {
+                // Sembunyikan Halaman Cover Sepenuhnya
+                cover.style.display = 'none';
+
+                // Tampilkan Halaman Utama
+                mainContent.style.display = 'block';
+                
+                // Efek Fade In Halaman Utama
+                setTimeout(() => {
+                    mainContent.style.opacity = '1';
+                }, 50);
+
+                // Reset Posisi Scroll ke Paling Atas
+                window.scrollTo(0, 0);
+
+                // Putar Musik Autoplay
+                music.play();
+                isPlaying = true;
+                musicBtn.innerText = "🎵";
+            }, 1500); // Waktu transisi 0.5 detik
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.innerText = "🔇";
+            } else {
+                music.play();
+                musicBtn.innerText = "🎵";
+            }
+            isPlaying = !isPlaying;
+        }
+    </script>
+</body>
+</html>
